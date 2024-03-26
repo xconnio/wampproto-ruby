@@ -1,0 +1,33 @@
+AllCops:
+  TargetRubyVersion: 3.3
+  NewCops: enable
+
+require:
+  - rubocop-rake
+  - rubocop-rspec
+
+Style/StringLiterals:
+  Enabled: true
+  EnforcedStyle: double_quotes
+
+Style/StringLiteralsInInterpolation:
+  Enabled: true
+  EnforcedStyle: double_quotes
+
+Layout/LineLength:
+  Max: 120
+
+Metrics/BlockLength:
+  Enabled: false
+
+Layout/BeginEndAlignment:
+  EnforcedStyleAlignWith: start_of_line
+
+Layout/EndAlignment:
+  EnforcedStyleAlignWith: start_of_line
+
+Layout/MultilineMethodCallIndentation:
+  EnforcedStyle: indented
+
+Layout/CaseIndentation:
+  EnforcedStyle: end
