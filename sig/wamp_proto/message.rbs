@@ -7,6 +7,7 @@ module WampProto
       ABORT: 3
       CHALLENGE: 4
       AUTHENTICATE: 5
+      GOODBYE: 6
     end
 
     HANDLER: ::Hash[Integer, singleton(Message::Base)]
