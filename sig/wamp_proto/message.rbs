@@ -1,0 +1,14 @@
+module WampProto
+  # message root
+  module Message
+    module Type
+      HELLO: 1
+      WELCOME: 2
+    end
+
+    HANDLER: ::Hash[Integer, singleton(Message::Base)]
+
+    def self.resolve: (Array[untyped] wamp_message) -> Message::Base
+  end
+end
+

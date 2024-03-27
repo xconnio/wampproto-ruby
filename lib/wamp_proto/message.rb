@@ -2,16 +2,19 @@
 
 require_relative "message/base"
 require_relative "message/hello"
+require_relative "message/welcome"
 
 module WampProto
   # message root
   module Message
     module Type
       HELLO = 1
+      WELCOME = 2
     end
 
     HANDLER = {
-      Type::HELLO => Hello
+      Type::HELLO => Hello,
+      Type::WELCOME => Welcome
     }.freeze
 
     def self.resolve(wamp_message)
