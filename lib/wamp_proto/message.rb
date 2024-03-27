@@ -5,6 +5,7 @@ require_relative "message/hello"
 require_relative "message/welcome"
 require_relative "message/abort"
 require_relative "message/challenge"
+require_relative "message/authenticate"
 
 module WampProto
   # message root
@@ -14,13 +15,15 @@ module WampProto
       WELCOME = 2
       ABORT = 3
       CHALLENGE = 4
+      AUTHENTICATE = 5
     end
 
     HANDLER = {
       Type::HELLO => Hello,
       Type::WELCOME => Welcome,
       Type::ABORT => Abort,
-      Type::CHALLENGE => Challenge
+      Type::CHALLENGE => Challenge,
+      Type::AUTHENTICATE => Authenticate
     }.freeze
 
     def self.resolve(wamp_message)

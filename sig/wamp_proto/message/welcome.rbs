@@ -1,7 +1,7 @@
 module WampProto
   module Message
     # welcome message
-    class Welcome
+    class Welcome < Base
       @session_id: Integer
 
       @details: Hash[Symbol, untyped]

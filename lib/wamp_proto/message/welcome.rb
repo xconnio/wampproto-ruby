@@ -3,10 +3,11 @@
 module WampProto
   module Message
     # welcome message
-    class Welcome
+    class Welcome < Base
       attr_reader :session_id, :details
 
       def initialize(session_id, details = {})
+        super()
         @session_id = Validate.int!("Session Id", session_id)
         @details = Validate.hash!("Details", details)
       end

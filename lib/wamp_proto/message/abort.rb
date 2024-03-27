@@ -3,10 +3,11 @@
 module WampProto
   module Message
     # abort message
-    class Abort
+    class Abort < Base
       attr_reader :details, :reason, :args, :kwargs
 
       def initialize(details, reason, *args, **kwargs)
+        super()
         @details = Validate.hash!("Details", details)
         @reason = Validate.string!("Reason", reason)
         @args   = Validate.array!("Arguments", args)

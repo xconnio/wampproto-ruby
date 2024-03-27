@@ -1,7 +1,7 @@
 module WampProto
   module Message
     # abort message
-    class Abort
+    class Abort < Base
       @details: Hash[Symbol, untyped]
 
       @reason: String
