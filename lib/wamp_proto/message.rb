@@ -3,6 +3,7 @@
 require_relative "message/base"
 require_relative "message/hello"
 require_relative "message/welcome"
+require_relative "message/abort"
 
 module WampProto
   # message root
@@ -10,11 +11,13 @@ module WampProto
     module Type
       HELLO = 1
       WELCOME = 2
+      ABORT = 3
     end
 
     HANDLER = {
       Type::HELLO => Hello,
-      Type::WELCOME => Welcome
+      Type::WELCOME => Welcome,
+      Type::ABORT => Abort
     }.freeze
 
     def self.resolve(wamp_message)
