@@ -1,0 +1,20 @@
+module WampProto
+  module Message
+    # Wamp Challenge message
+    class Challenge
+      @auth_method: String
+
+      @extra: Hash[Symbol, untyped]
+
+      attr_reader auth_method: String
+
+      attr_reader extra: Hash[Symbol, untyped]
+
+      def initialize: (String auth_method, Hash[Symbol, untyped] extra) -> Challenge
+
+      def payload: () -> ::Array[untyped]
+
+      def self.parse: (Array[untyped] wamp_message) -> Challenge
+    end
+  end
+end

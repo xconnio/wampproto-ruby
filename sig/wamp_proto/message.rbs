@@ -4,7 +4,8 @@ module WampProto
     module Type
       HELLO: 1
       WELCOME: 2
-      ABORT: 2
+      ABORT: 3
+      CHALLENGE: 4
     end
 
     HANDLER: ::Hash[Integer, singleton(Message::Base)]
