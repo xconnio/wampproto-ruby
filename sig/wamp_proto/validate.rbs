@@ -1,0 +1,18 @@
+module WampProto
+  # validation
+  class Validate
+    def self.int!: (String name, Integer value) -> Integer
+
+    def self.string!: (String name, String value) -> String
+
+    def self.hash!: (String name, Hash[Symbol, untyped] value) -> Hash[Symbol, untyped]
+
+    def self.array!: (String name, Array[untyped] value) -> Array[untyped]
+
+    def self.length!: (Array[untyped] array, Integer expected_length) -> Array[untyped]
+
+    def self.greater_than_equal!: (Array[untyped] array, untyped expected_length) -> Array[untyped]
+
+    def self.options!: (Hash[Symbol, untyped] options, Array[Symbol] valid_keys) -> Hash[Symbol, untyped]
+  end
+end

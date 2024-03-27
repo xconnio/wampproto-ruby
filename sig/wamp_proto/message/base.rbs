@@ -1,0 +1,10 @@
+module WampProto
+  module Message
+    # Base Interface for the Message(s)
+    class Base
+      def self.parse: (Array[untyped] msg) -> Base
+
+      def payload: () -> Array[untyped]
+    end
+  end
+end
