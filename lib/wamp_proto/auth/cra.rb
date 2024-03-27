@@ -3,25 +3,28 @@
 module WampProto
   module Auth
     # generates wampcra authentication signature
-    class Cra
+    class Cra < Base
       attr_reader :secret
 
+      AUTH_METHOD = "wampcra"
+
       def initialize(secret, details = {})
-        @secret = secret
-        @details = details
+        @secret = Validate.string!("Secret", secret)
+        @details = Validate.hash!("Details", details)
+        super(AUTH_METHOD, details[:authid], details[:auth_extra])
       end
 
       def details
         {}.tap do |hsh|
           hsh[:authid] = @details.fetch(:authid)
-          hsh[:authmethods] = ["wampcra"]
+          hsh[:authmethods] = [AUTH_METHOD]
           hsh[:authextra] = @details.fetch(:authextra, {})
         end
       end
 
       def authenticate(challenge)
         signature = create_signature(challenge)
-        Wamp::Message::Authenticate.new(signature)
+        Message::Authenticate.new(signature)
       end
 
       private

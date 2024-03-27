@@ -5,25 +5,42 @@ require "ed25519"
 module WampProto
   module Auth
     # generates wampcra authentication signature
-    class Cryptosign
+    class Cryptosign < Base
       attr_reader :private_key
 
+      AUTH_METHOD = "cryptosign"
+
       def initialize(private_key, details = {})
-        @private_key = private_key
-        @details = details
+        @private_key = Validate.string!("Private Key", private_key)
+        @details = Validate.hash!("Details", details)
+        super(AUTH_METHOD, details[:authid], details[:auth_extra])
       end
 
       def details
         {}.tap do |hsh|
           hsh[:authid] = @details.fetch(:authid)
-          hsh[:authmethods] = ["cryptosign"]
+          hsh[:authmethods] = [AUTH_METHOD]
           hsh[:authextra] = @details.fetch(:authextra, {}).merge(pubkey: public_key)
         end
       end
 
       def authenticate(challenge)
         signature = create_signature(challenge)
-        Wamp::Message::Authenticate.new(signature)
+        Message::Authenticate.new(signature)
+      end
+
+      def create_challenge
+        binary_challenge = SecureRandom.random_bytes(32)
+        binary_challenge.unpack1("H*")
+      end
+
+      def verify_challenge(signature, msg)
+        binary_signature = hex_to_binary(signature)
+        signature = binary_signature[0, 64]
+        message = binary_signature[64, 32]
+        return false if msg != message.unpack1("H*")
+
+        key_pair.verify_key.verify(signature, message)
       end
 
       private

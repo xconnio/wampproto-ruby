@@ -1,21 +1,22 @@
 # frozen_string_literal: true
 
-module Wamp
+module WampProto
   module Auth
     # generates wampcra authentication signature
-    class Anonymous
+    class Anonymous < Base
+      AUTH_METHOD = "anonymous"
+
       def initialize(details = {})
-        @details = details
+        @details = Validate.hash!("Details", details)
+        super(AUTH_METHOD, details[:authid], details[:auth_extra])
       end
 
       def details
         {}.tap do |hsh|
-          hsh[:authid] = "anonymous"
-          hsh[:authmethods] = ["anonymous"]
+          hsh[:authid] = @details.fetch(:authid, "anonymous")
+          hsh[:authmethods] = [AUTH_METHOD]
         end
       end
-
-      def authenticate(_challenge); end
     end
   end
 end
