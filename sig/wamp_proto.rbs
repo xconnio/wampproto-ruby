@@ -1,5 +1,0 @@
-module WampProto
-  VERSION: String
-  class Error < StandardError
-  end
-end

@@ -2,7 +2,7 @@
 
 source "https://rubygems.org"
 
-# Specify your gem's dependencies in wamp_proto.gemspec
+# Specify your gem's dependencies in wampproto.gemspec
 gemspec
 
 gem "rake", "~> 13.0"
