@@ -8,7 +8,7 @@ target :lib do
   # check "app/models/**/*.rb"        # Glob
   # ignore "lib/templates/*.rb"
 
-  # library "pathname"              # Standard libraries
+  library "json" # Standard libraries
   # library "strong_json"           # Gems
 
   # configure_code_diagnostics(D::Ruby.default)      # `default` diagnostics setting (applies by default)
