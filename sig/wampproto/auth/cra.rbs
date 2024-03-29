@@ -4,13 +4,11 @@ module Wampproto
     class Cra < Base
       @secret: String
 
-      @details: Hash[Symbol, untyped]
-
       attr_reader secret: String
 
       AUTH_METHOD: "wampcra"
 
-      def initialize: (String secret, ?::Hash[Symbol, untyped] details) -> void
+      def initialize: (String secret, String authid, Hash[Symbol, untyped] authextra) -> void
 
       def authenticate: (Message::Challenge challenge) -> Message::Authenticate
 

@@ -11,11 +11,15 @@ module Wampproto
 
       AUTH_METHOD = "wampcra"
 
-      def initialize(secret, details = {})
-        @secret = Validate.string!("Secret", secret)
-        @details = Validate.hash!("Details", details)
-        super(AUTH_METHOD, details[:authid], details.fetch(:authextra, {}))
+      # rubocop:disable Metrics/ParameterLists
+      def initialize(secret, authid, authextra = {}, salt = nil, keylen = 32, iterations = 100)
+        @secret     = Validate.string!("Secret", secret)
+        @salt       = Validate.string!("Salt", salt) if salt
+        @keylen     = Validate.int!("Keylen", keylen) if salt
+        @iterations = Validate.int!("Iterations", iterations) if salt
+        super(AUTH_METHOD, authid, authextra)
       end
+      # rubocop:enable Metrics/ParameterLists
 
       def authenticate(challenge)
         signature = create_signature(challenge)
@@ -31,19 +35,13 @@ module Wampproto
 
         hmac.update(extra[:challenge])
 
-        Base64.encode64(hmac.digest).gsub("\n", "")
+        Base64.encode64(hmac.digest).rstrip
       end
 
       def create_drived_secret(extra)
         salt        = extra[:salt]
         length      = extra[:keylen]
         iterations  = extra[:iterations]
-
-        p extra
-        p iterations
-        p salt
-        p length
-        p secret
 
         key = OpenSSL::KDF.pbkdf2_hmac(secret, salt:, iterations:, length:, hash: "SHA256")
         key.unpack1("H*")

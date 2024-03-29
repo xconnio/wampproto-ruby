@@ -6,10 +6,10 @@ module Wampproto
     class Base
       attr_reader :authmethod, :authid, :authextra
 
-      def initialize(method, authid, authextra)
-        @authmethod = method
-        @authid = authid
-        @authextra = authextra
+      def initialize(method, authid, authextra = {})
+        @authmethod = Validate.string!("AuthMethod", method)
+        @authid = Validate.string!("AuthId", authid)
+        @authextra = Validate.hash!("AuthExtra", authextra)
       end
 
       def authenticate(_challenge)

@@ -7,10 +7,9 @@ module Wampproto
       AUTH_METHOD = "ticket"
       attr_reader :secret
 
-      def initialize(secret, details = {})
-        Validate.hash!("Details", details)
+      def initialize(secret, authid, authextra = {})
         @secret = Validate.string!("Secret", secret)
-        super(AUTH_METHOD, details[:authid], details.fetch(:authextra, {}))
+        super(AUTH_METHOD, authid, authextra)
       end
 
       def authenticate(challenge)
