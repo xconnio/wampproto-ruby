@@ -1,0 +1,43 @@
+module Wampproto
+  module Auth
+    # generates wampcra authentication signature
+    class Cryptosign < Base
+      @private_key: String
+
+      @key_pair: untyped
+
+      attr_reader private_key: String
+
+      attr_accessor channel_id: String
+
+      AUTH_METHOD: "cryptosign"
+
+      def initialize: (String private_key, String authid, ?::Hash[Symbol, untyped] authextra) -> void
+
+      def authenticate: (Wampproto::Message::Challenge challenge) -> Wampproto::Message::Authenticate
+
+      def create_challenge: () -> (::Integer | ::Float | ::String | nil)
+
+      def verify_challenge: (String signature, String msg) -> bool
+
+      private
+
+      def key_pair: () -> untyped
+
+      def public_key: () -> String
+
+      def create_signature: (Wampproto::Message::Challenge challenge) -> String
+
+      def handle_without_channel_binding: (Hash[Symbol, untyped] extra) -> ::String
+
+      def handle_channel_binding: (Hash[Symbol, untyped] extra) -> ::String
+
+      def xored_strings: (String channel_id, String challenge_str) -> untyped
+
+      def hex_to_binary: (String hex_string) -> untyped
+
+      def binary_to_hex: (String binary_string) -> untyped
+    end
+  end
+end
+
