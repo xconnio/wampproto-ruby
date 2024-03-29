@@ -1,0 +1,5 @@
+module CBOR 
+  def self.encode: (untyped message) -> String
+
+  def self.decode: (String message) -> untyped
+end

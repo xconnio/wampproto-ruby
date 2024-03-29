@@ -1,0 +1,11 @@
+module Wampproto
+  module Serializer
+    # Add common API for serializer
+    class JSON
+      def self.serialize: (untyped message) -> String
+
+      def self.deserialize: (String message) -> untyped
+    end
+  end
+end
+
