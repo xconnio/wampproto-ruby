@@ -3,11 +3,11 @@
 RSpec.describe Wampproto::Serializer::Cbor do
   let(:serializer) { described_class }
   let(:data) { [Wampproto::Message::Type::HELLO, "realm1", {}] }
-  let(:encoded_data) { described_class.encode(data) }
+  let(:serialized_data) { described_class.serialize(data) }
 
-  describe "Msgpack.encode" do
-    it "decodes the encoded data" do
-      expect(serializer.decode(encoded_data)).to include(Wampproto::Message::Type::HELLO)
+  describe "Msgpack.serialize" do
+    it "deserialize the serialize data" do
+      expect(serializer.deserialize(serialized_data)).to include(Wampproto::Message::Type::HELLO)
     end
   end
 end

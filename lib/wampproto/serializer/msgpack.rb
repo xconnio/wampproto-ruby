@@ -6,11 +6,11 @@ module Wampproto
   module Serializer
     # Add common API for serializer
     class Msgpack
-      def self.encode(message)
+      def self.serialize(message)
         ::MessagePack.pack(message).unpack("c*")
       end
 
-      def self.decode(message)
+      def self.deserialize(message)
         ::MessagePack.unpack(message.pack("c*"))
       end
     end

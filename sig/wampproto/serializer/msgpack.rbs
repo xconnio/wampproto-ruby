@@ -2,9 +2,9 @@ module Wampproto
   module Serializer
     # Add common API for serializer
     class Msgpack
-      def self.encode: (untyped message) -> Array[untyped]
+      def self.serialize: (untyped message) -> Array[untyped]
 
-      def self.decode: (Array[untyped] message) -> untyped
+      def self.deserialize: (Array[untyped] message) -> untyped
     end
   end
 end
