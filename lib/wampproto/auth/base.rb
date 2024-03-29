@@ -4,7 +4,7 @@ module Wampproto
   module Auth
     # Auth Base
     class Base
-      attr_reader :authmethod, :authid, :authextra, :details
+      attr_reader :authmethod, :authid, :authextra
 
       def initialize(method, authid, authextra)
         @authmethod = method

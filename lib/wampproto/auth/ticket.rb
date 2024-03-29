@@ -8,17 +8,9 @@ module Wampproto
       attr_reader :secret
 
       def initialize(secret, details = {})
-        @details = Validate.hash!("Details", details)
+        Validate.hash!("Details", details)
         @secret = Validate.string!("Secret", secret)
-        super(AUTH_METHOD, details[:authid], details[:authextra])
-      end
-
-      def details
-        {}.tap do |hsh|
-          hsh[:authid] = details.fetch(:authid)
-          hsh[:authmethods] = [AUTH_METHOD]
-          hsh[:authextra] = details.fetch(:authextra, {})
-        end
+        super(AUTH_METHOD, details[:authid], details.fetch(:authextra, {}))
       end
 
       def authenticate(challenge)

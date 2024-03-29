@@ -31,3 +31,9 @@ Layout/MultilineMethodCallIndentation:
 
 Layout/CaseIndentation:
   EnforcedStyle: end
+
+RSpec/NestedGroups:
+  Enabled: false
+
+RSpec/MultipleMemoizedHelpers:
+  Enabled: false
