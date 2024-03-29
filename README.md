@@ -1,4 +1,4 @@
-# WampProto
+# Wampproto
 
 -Sans-IO WAMP protocol implementation in Ruby
 
@@ -32,4 +32,4 @@ The gem is available as open source under the terms of the [MIT License](https:/
 
 ## Code of Conduct
 
-Everyone interacting in the WampProto project's codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/xconnio/wampproto.rb/blob/main/CODE_OF_CONDUCT.md).
+Everyone interacting in the Wampproto project's codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/xconnio/wampproto.rb/blob/main/CODE_OF_CONDUCT.md).

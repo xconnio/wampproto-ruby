@@ -1,0 +1,21 @@
+module Wampproto
+  module Message
+    # abort message
+    class Goodbye < Base
+      @details: Hash[Symbol, untyped]
+
+      @reason: String
+
+      attr_reader details: Hash[Symbol, untyped]
+
+      attr_reader reason: String
+
+      def initialize: (Hash[Symbol, untyped] details, String reason) -> void
+
+      def marshal: () -> ::Array[untyped]
+
+      def self.parse: (Array[untyped] wamp_message) -> Goodbye
+    end
+  end
+end
+

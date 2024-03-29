@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-require_relative "lib/wamp_proto/version"
+require_relative "lib/wampproto/version"
 
 Gem::Specification.new do |spec|
-  spec.name = "wamp_proto"
-  spec.version = WampProto::VERSION
+  spec.name = "wampproto"
+  spec.version = Wampproto::VERSION
   spec.authors = ["Ismail Akram"]
   spec.email = ["rubyonrails3@gmail.com"]
 

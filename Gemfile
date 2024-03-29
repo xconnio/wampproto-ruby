@@ -2,7 +2,7 @@
 
 source "https://rubygems.org"
 
-# Specify your gem's dependencies in wamp_proto.gemspec
+# Specify your gem's dependencies in wampproto.gemspec
 gemspec
 
 gem "rake", "~> 13.0"
@@ -13,3 +13,5 @@ gem "rubocop", "~> 1.21"
 
 gem "rubocop-rake", "~> 0.6.0"
 gem "rubocop-rspec", "~> 2.27"
+
+gem "steep", "~> 1.6"

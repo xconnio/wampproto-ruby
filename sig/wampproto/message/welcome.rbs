@@ -1,0 +1,20 @@
+module Wampproto
+  module Message
+    # welcome message
+    class Welcome < Base
+      @session_id: Integer
+
+      @details: Hash[Symbol, untyped]
+
+      attr_reader session_id: Integer
+
+      attr_reader details: Hash[Symbol, untyped]
+
+      def initialize: (Integer session_id, ?::Hash[Symbol, untyped] details) -> void
+
+      def marshal: () -> ::Array[untyped]
+
+      def self.parse: (Array[untyped] wamp_message) -> Welcome
+    end
+  end
+end

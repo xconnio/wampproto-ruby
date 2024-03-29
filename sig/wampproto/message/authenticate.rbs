@@ -1,0 +1,20 @@
+module Wampproto
+  module Message
+    # Wamp Authenticate message
+    class Authenticate < Base
+      @signature: String
+
+      @extra: Hash[Symbol, untyped]
+
+      attr_reader signature: String
+
+      attr_reader extra: Hash[Symbol, untyped]
+
+      def initialize: (String signature, Hash[Symbol, untyped] extra) -> void
+
+      def marshal: () -> ::Array[untyped]
+
+      def self.parse: (Array[untyped] wamp_message) -> Authenticate
+    end
+  end
+end

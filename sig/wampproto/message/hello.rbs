@@ -1,0 +1,39 @@
+module Wampproto
+  module Message
+    # Wamp Hello message
+    class Hello < Base
+      @realm: String
+
+      @details: Hash[Symbol, untyped]
+
+      attr_reader realm: String
+
+      attr_reader details: Hash[Symbol, untyped]
+
+      def initialize: (String realm, ?::Hash[Symbol, untyped] details) -> void
+
+      def marshal: () -> ::Array[untyped]
+
+      def parse_details: (?::Hash[Symbol, untyped] hsh) -> Hash[Symbol, untyped]
+
+      def roles: () -> Hash[Symbol, untyped]
+
+      def authid: () -> String
+
+      def authmethods: () -> Array[String]
+
+      def authextra: () -> (Hash[Symbol, untyped] | nil)
+
+      def self.parse: (Array[untyped] wamp_message) -> Hello
+
+      private
+
+      def default_details: () -> { roles: Hash[Symbol, untyped] }
+
+      def default_roles: () -> Hash[Symbol, untyped]
+
+      def additional_details: () -> { agent: ::String }
+    end
+  end
+end
+
