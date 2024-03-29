@@ -1,0 +1,10 @@
+module Wampproto
+  module Serializer
+    # Add common API for serializer
+    class Cbor
+      def self.encode: (untyped message) -> Array[untyped]
+
+      def self.decode: (Array[Integer] message) -> untyped
+    end
+  end
+end

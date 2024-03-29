@@ -33,5 +33,6 @@ Gem::Specification.new do |spec|
   spec.executables = spec.files.grep(%r{\Aexe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
 
+  spec.add_dependency "cbor", "~> 0.5.9.8"
   spec.add_dependency "msgpack", "~> 1.7.2"
 end
