@@ -1,0 +1,7 @@
+module  Ed25519
+  class VerifyKey
+    def initialize: (String private_key) -> void
+
+    def verify: (String signature, String message) -> bool
+  end
+end

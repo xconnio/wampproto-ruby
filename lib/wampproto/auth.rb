@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require_relative "auth/helpers"
 require_relative "auth/base"
 require_relative "auth/anonymous"
 require_relative "auth/ticket"

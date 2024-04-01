@@ -1,0 +1,16 @@
+module Wampproto
+  # Auth classes
+  module Auth
+    # Auth Helpers
+    module Helpers
+      def self.included: (untyped base) -> void
+
+      # class methods
+      module ClassMethods
+        def hex_to_binary: (String hex_string) -> String
+
+        def binary_to_hex: (String binary_string) -> untyped
+      end
+    end
+  end
+end

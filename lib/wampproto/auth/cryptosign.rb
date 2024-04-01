@@ -6,6 +6,8 @@ module Wampproto
   module Auth
     # generates wampcra authentication signature
     class Cryptosign < Base
+      include Helpers
+
       attr_reader :private_key
       attr_accessor :channel_id
 
@@ -21,18 +23,23 @@ module Wampproto
         Message::Authenticate.new(signature)
       end
 
-      def create_challenge
-        binary_challenge = SecureRandom.random_bytes(32)
-        binary_challenge.unpack1("H*")
-      end
+      class << self
+        def create_challenge
+          binary_challenge = SecureRandom.random_bytes(32)
+          binary_to_hex(binary_challenge)
+        end
 
-      def verify_challenge(signature, msg)
-        binary_signature = hex_to_binary(signature)
-        signature = binary_signature[0, 64]
-        message = binary_signature[64, 32]
-        return false if msg != message.unpack1("H*")
+        def verify_challenge(signature, msg, public_key)
+          verify_key = Ed25519::VerifyKey.new(hex_to_binary(public_key))
 
-        key_pair.verify_key.verify(signature, message)
+          binary_signature = hex_to_binary(signature)
+          signature = binary_signature[0, 64].to_s
+          message = binary_signature[64, 32].to_s
+          return false if message.empty? || signature.empty?
+          return false if msg != binary_to_hex(message)
+
+          verify_key.verify(signature, message)
+        end
       end
 
       private
@@ -77,14 +84,6 @@ module Wampproto
         # Added || 0 like (byte1 || 0) to make steep check happy
         xored = channel_id_bytes.zip(challenge_bytes).map { |byte1, byte2| (byte1 || 0) ^ (byte2 || 0) }
         xored.pack("C*")
-      end
-
-      def hex_to_binary(hex_string)
-        [hex_string].pack("H*")
-      end
-
-      def binary_to_hex(binary_string)
-        binary_string.unpack1("H*")
       end
     end
   end

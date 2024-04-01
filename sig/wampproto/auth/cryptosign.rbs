@@ -6,6 +6,9 @@ module Wampproto
 
       @key_pair: untyped
 
+      include Helpers
+      extend Helpers::ClassMethods
+
       attr_reader private_key: String
 
       attr_accessor channel_id: String
