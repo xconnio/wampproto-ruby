@@ -1,0 +1,5 @@
+module  Ed25519
+  class SigningKey
+    def initialize: (String private_key) -> void
+  end
+end

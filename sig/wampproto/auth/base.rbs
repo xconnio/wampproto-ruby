@@ -1,0 +1,25 @@
+module Wampproto
+  module Auth
+    # Auth Base
+    class Base
+      @authmethod: String
+
+      @authid: String
+
+      @authextra: Hash[Symbol, untyped]
+
+      attr_reader authmethod: String
+
+      attr_reader authid: String
+
+      attr_reader authextra: Hash[Symbol, untyped]
+
+      attr_reader details: Hash[Symbol, untyped]
+
+      def initialize: (String method, String authid, Hash[Symbol, untyped] authextra) -> void
+
+      def authenticate: (String _challenge) -> String
+    end
+  end
+end
+

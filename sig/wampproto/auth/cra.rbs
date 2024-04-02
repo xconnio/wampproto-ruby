@@ -1,0 +1,23 @@
+module Wampproto
+  module Auth
+    # generates wampcra authentication signature
+    class Cra < Base
+      @secret: String
+
+      attr_reader secret: String
+
+      AUTH_METHOD: "wampcra"
+
+      def initialize: (String secret, String authid, Hash[Symbol, untyped] authextra) -> void
+
+      def authenticate: (Message::Challenge challenge) -> Message::Authenticate
+
+      private
+
+      def create_signature: (Message::Challenge challenge) -> String
+
+      def create_drived_secret: (Hash[Symbol, untyped] extra) -> untyped
+    end
+  end
+end
+

@@ -1,0 +1,21 @@
+module Wampproto
+  module Auth
+    # generates ticket authentication signature
+    class Ticket < Base
+      @secret: String
+
+      AUTH_METHOD: "ticket"
+
+      attr_reader secret: String
+
+      def initialize: (String secret, String authid, ?::Hash[Symbol, untyped] authextra) -> void
+
+      def authenticate: (Message::Challenge challenge) -> Message::Authenticate
+
+      private
+
+      def create_signature: (untyped _challenge) -> untyped
+    end
+  end
+end
+

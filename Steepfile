@@ -9,6 +9,9 @@ target :lib do
   # ignore "lib/templates/*.rb"
 
   library "json" # Standard libraries
+  library "base64" # Standard libraries
+  library "openssl" # Standard libraries
+  library "securerandom" # Standard libraries
 
   # configure_code_diagnostics(D::Ruby.default)      # `default` diagnostics setting (applies by default)
   # configure_code_diagnostics(D::Ruby.strict)       # `strict` diagnostics setting

@@ -1,0 +1,13 @@
+module Wampproto
+  module Auth
+    # anonymous authentication
+    class Anonymous < Base
+      @authid: String
+
+      AUTH_METHOD: "anonymous"
+
+      def initialize: (String | nil authid, ?::Hash[Symbol, untyped] authextra) -> void
+    end
+  end
+end
+

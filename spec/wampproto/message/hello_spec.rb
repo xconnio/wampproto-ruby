@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# rubocop:disable RSpec/NestedGroups
-
 RSpec.describe Wampproto::Message::Hello do
   describe "Hello.parse" do
     subject { described_class.parse(wamp_message) }
@@ -22,5 +20,3 @@ RSpec.describe Wampproto::Message::Hello do
     end
   end
 end
-
-# rubocop:enable RSpec/NestedGroups

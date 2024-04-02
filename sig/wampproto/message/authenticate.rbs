@@ -10,7 +10,7 @@ module Wampproto
 
       attr_reader extra: Hash[Symbol, untyped]
 
-      def initialize: (String signature, Hash[Symbol, untyped] extra) -> void
+      def initialize: (String signature, ?::Hash[Symbol, untyped] extra) -> void
 
       def marshal: () -> ::Array[untyped]
 
