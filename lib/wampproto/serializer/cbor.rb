@@ -7,11 +7,11 @@ module Wampproto
     # Add common API for serializer
     class Cbor
       def self.serialize(message)
-        CBOR.encode(message).unpack("c*")
+        CBOR.encode(message.marshal).unpack("c*")
       end
 
       def self.deserialize(message)
-        CBOR.decode(message.pack("c*"))
+        CBOR.decode(message.pack("c*")).then { Message.resolve(_1) }
       end
     end
   end

@@ -7,11 +7,11 @@ module Wampproto
     # Add common API for serializer
     class JSON
       def self.serialize(message)
-        ::JSON.dump(message)
+        ::JSON.dump(message.marshal)
       end
 
       def self.deserialize(message)
-        ::JSON.parse(message)
+        ::JSON.parse(message).then { Message.resolve(_1) }
       end
     end
   end
