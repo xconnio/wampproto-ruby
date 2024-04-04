@@ -16,6 +16,22 @@ module Wampproto
         [Type::WELCOME, @session_id, @details]
       end
 
+      def authrole
+        @authrole ||= details.fetch(:authrole, [])
+      end
+
+      def authid
+        @authid ||= details[:authid]
+      end
+
+      def authmethod
+        @authmethod ||= details[:authmethods]
+      end
+
+      def authextra
+        @authextra ||= details.fetch(:authextra) if details.member?(:authextra)
+      end
+
       def self.parse(wamp_message)
         _type, session_id, details = wamp_message
         new(session_id, details)

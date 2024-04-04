@@ -6,9 +6,8 @@ module Wampproto
     class Anonymous < Base
       AUTH_METHOD = "anonymous"
 
-      def initialize(authid, authextra = {})
-        super(AUTH_METHOD, "", authextra)
-        @authid = authid
+      def initialize(authid = "", authextra = {})
+        super(AUTH_METHOD, authid, authextra)
       end
     end
   end

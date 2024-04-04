@@ -1,0 +1,52 @@
+module Wampproto
+  CLIENT_ROLES: { caller: { features: ::Hash[untyped, untyped] }, callee: { features: ::Hash[untyped, untyped] }, publisher: { features: ::Hash[untyped, untyped] }, subscriber: { features: ::Hash[untyped, untyped] } }
+
+  # Custom Exception
+  class ProtocolViolation < StandardError
+    @uri: untyped
+
+    attr_reader uri: untyped
+
+    def initialize: (?::String msg, ?::String uri) -> void
+  end
+
+  # Handle Joining part of wamp protocol
+  class Joiner
+    @realm: String
+
+    type serializerTypes = (singleton(Serializer::JSON) | singleton(Serializer::Msgpack) | singleton(Serializer::Cbor))
+    type authenticatorsType = Auth::Anonymous | Auth::Ticket | Auth::Cra | Auth::Cryptosign
+
+    @serializer: serializerTypes
+
+    @authenticator: Auth::Base
+
+    @state: Integer
+
+    @session_details: SessionDetails
+
+    STATE_NONE: 0
+
+    STATE_HELLO_SENT: 1
+
+    STATE_AUTHENTICATE_SENT: 2
+
+    STATE_JOINED: 3
+
+    attr_reader realm: String
+
+    attr_reader serializer: serializerTypes 
+
+    attr_reader authenticator: Auth::Base
+
+    attr_accessor state: Integer
+
+    def initialize: (String realm, ?serializerTypes serializer, ?authenticatorsType authenticator) -> void
+
+    def send_hello: () -> (Array[untyped] | String)
+
+    def receive: (untyped data) -> (nil | untyped)
+
+    def receive_message: (Message::Base msg) -> (Message::Authenticate | nil | Integer | String)
+  end
+end
