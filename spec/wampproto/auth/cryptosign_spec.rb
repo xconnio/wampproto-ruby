@@ -61,4 +61,24 @@ RSpec.describe Wampproto::Auth::Cryptosign do
       end
     end
   end
+
+  describe "Cryptosign.verify_challenge" do
+    subject { described_class.verify_challenge(authenticate.signature, challenge_msg, public_key) }
+
+    let(:challenge_msg) { described_class.create_challenge }
+    let(:challenge) { Wampproto::Message::Challenge.new("cryptosign", { challenge: challenge_msg }) }
+    let(:public_key) { "1adfc8bfe1d35616e64dffbd900096f23b066f914c8c2ffbb66f6075b96e116d" }
+    let(:authenticator) { described_class.new(private_key, authid, {}) }
+    let(:authenticate) { authenticator.authenticate(challenge) }
+
+    context "when valid signature" do
+      it { is_expected.to be_truthy }
+    end
+
+    context "when invalid signature" do
+      let(:authenticate) { Wampproto::Message::Authenticate.new("invalid-signature") }
+
+      it { is_expected.to be_falsey }
+    end
+  end
 end

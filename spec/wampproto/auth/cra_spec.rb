@@ -51,4 +51,65 @@ RSpec.describe Wampproto::Auth::Cra do
       end
     end
   end
+
+  describe "Cra.verify_challenge" do
+    subject { described_class.verify_challenge(authenticate.signature, challenge_msg, secret) }
+
+    let(:session_id) { 1 }
+    let(:challenge_msg) { described_class.create_challenge(session_id, authid, "role", "dbprovider") }
+    let(:challenge) { Wampproto::Message::Challenge.new("cryptosign", { challenge: challenge_msg }) }
+    let(:authenticator) { described_class.new(secret, authid, { challenge: challenge_msg }) }
+    let(:authenticate) { authenticator.authenticate(challenge) }
+
+    context "when valid signature" do
+      it { is_expected.to be_truthy }
+    end
+
+    context "when invalid signature" do
+      let(:authenticate) { Wampproto::Message::Authenticate.new("invalid-signature") }
+
+      it { is_expected.to be_falsey }
+    end
+
+    context "when secret is salted" do
+      subject do
+        described_class.verify_challenge(authenticate.signature, challenge_msg, secret, salt, keylen, iterations)
+      end
+
+      let(:challenge) do
+        Wampproto::Message::Challenge.new(
+          "cryptosign", {
+            challenge: challenge_msg,
+            salt:,
+            keylen:,
+            iterations:
+          }
+        )
+      end
+
+      let(:salt) { "salty" }
+      let(:keylen) { 32 }
+      let(:iterations) { 1000 }
+      let(:derived_secret) { described_class.create_derive_secret(secret, salt, keylen, iterations) }
+
+      context "when valid signature" do
+        it { is_expected.to be_truthy }
+      end
+
+      context "when invalid signature" do
+        let(:authenticate) { Wampproto::Message::Authenticate.new("invalid-signature") }
+
+        it { is_expected.to be_falsey }
+
+        context "when salt does not matches" do
+          subject do
+            described_class.verify_challenge(authenticate.signature, challenge_msg, secret, "invalid-salt", keylen,
+                                             iterations)
+          end
+
+          it { is_expected.to be_falsey }
+        end
+      end
+    end
+  end
 end

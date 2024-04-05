@@ -6,11 +6,22 @@ module Wampproto
 
       attr_reader secret: String
 
+      include Helpers
+      extend Helpers::ClassMethods
+
       AUTH_METHOD: "wampcra"
 
       def initialize: (String secret, String authid, Hash[Symbol, untyped] authextra) -> void
 
       def authenticate: (Message::Challenge challenge) -> Message::Authenticate
+
+      def self.create_challenge: (Integer session_id, String authid, String authrole, String authprovider) -> String
+
+      def self.verify_challenge: (String signature, String challenge, String secret, ?String? salt, ?::Integer keylen, ?::Integer iterations) -> bool
+
+      def self.sign_challenge: (String secret, String challenge, ?String? salt, ?::Integer keylen, ?::Integer iterations) -> String
+
+      def self.create_derive_secret: (String secret, String salt, Integer length, Integer iterations) -> untyped
 
       private
 

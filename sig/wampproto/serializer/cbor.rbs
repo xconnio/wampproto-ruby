@@ -2,9 +2,9 @@ module Wampproto
   module Serializer
     # Add common API for serializer
     class Cbor
-      def self.serialize: (untyped message) -> Array[untyped]
+      def self.serialize: (Message::Base message) -> Array[untyped]
 
-      def self.deserialize: (Array[Integer] message) -> untyped
+      def self.deserialize: (Array[Integer] message) -> Message::Base
     end
   end
 end
