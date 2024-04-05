@@ -1,0 +1,25 @@
+module Wampproto
+  # Session Details
+  class SessionDetails
+    @session_id: Integer
+
+    @realm: String
+
+    @authid: String
+
+    @authrole: String
+
+    attr_reader session_id: Integer
+
+    attr_reader realm: String
+
+    attr_reader authid: String
+
+    attr_reader authrole: String
+
+    def initialize: (Integer session_id, String realm, String authid, String authrole) -> void
+
+    def ==: (SessionDetails other) -> bool
+  end
+end
+

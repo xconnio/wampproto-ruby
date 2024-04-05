@@ -18,7 +18,7 @@ module Wampproto
 
       def initialize: (String method, String authid, Hash[Symbol, untyped] authextra) -> void
 
-      def authenticate: (String _challenge) -> String
+      def authenticate: (Message::Challenge _challenge) -> String
     end
   end
 end
