@@ -1,0 +1,25 @@
+module Wampproto
+  class Acceptor
+    # Request object sent for authentication
+    class Response
+      @authid: String
+
+      @authrole: String
+
+      @secret: String
+
+      attr_reader authid: String
+
+      attr_reader authrole: String
+
+      attr_reader secret: String
+
+      def initialize: (String authid, String authrole, ?String? secret) -> void
+
+      alias ticket secret
+
+      alias public_key secret
+    end
+  end
+end
+

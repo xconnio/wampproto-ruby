@@ -25,7 +25,7 @@ module Wampproto
       end
 
       def authmethod
-        @authmethod ||= details[:authmethods]
+        @authmethod ||= details[:authmethod]
       end
 
       def authextra

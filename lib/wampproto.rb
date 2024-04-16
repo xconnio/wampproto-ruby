@@ -7,6 +7,7 @@ require_relative "wampproto/serializer"
 require_relative "wampproto/auth"
 require_relative "wampproto/session_details"
 require_relative "wampproto/joiner"
+require_relative "wampproto/acceptor"
 
 module Wampproto
   class Error < StandardError; end

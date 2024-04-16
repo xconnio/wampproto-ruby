@@ -1,0 +1,86 @@
+module Wampproto
+  # Accepts Request
+  class Acceptor
+    type serializerTypes = (singleton(Serializer::JSON) | singleton(Serializer::Msgpack) | singleton(Serializer::Cbor))
+    # type authenticatorsType = Auth::Anonymous | Auth::Ticket | Auth::Cra | Auth::Cryptosign
+
+    @serializer: serializerTypes
+
+    @authenticator: singleton(Authenticator)
+
+    @state: Integer
+
+    @session_id: Integer
+
+    @hello: Message::Hello
+
+    @authid: String
+
+    @authmethod: String
+
+    @request: Request
+
+    @response: Response
+
+    @challenge: String
+
+    @public_key: String
+
+    @auth_request: AuthenticateRequest
+
+    STATE_NONE: 0
+
+    STATE_HELLO_RECEIVED: 1
+
+    STATE_CHALLENGE_SENT: 2
+
+    STATE_WELCOME_SENT: 3
+
+    STATE_ERROR: 4
+
+    ROUTER_ROLES: { dealer: ::Hash[untyped, untyped], broker: ::Hash[untyped, untyped] }
+
+    attr_reader serializer: serializerTypes
+
+    attr_reader session_id: Integer
+
+    attr_reader authmethod: String
+
+    attr_reader authenticator: singleton(Authenticator)
+
+    attr_accessor state: Integer
+
+    attr_accessor session_details: SessionDetails
+
+    def initialize: (?serializerTypes serializer, ?singleton(Authenticator) authenticator) -> void
+
+    def receive: (untyped data) -> untyped
+
+    def receive_message: (Message::Base msg) -> Message::Base
+
+    private
+
+    def handle_hello_message: (Message::Hello msg) -> (Message::Challenge | Message::Welcome | Message::Abort)
+
+    def handle_wampcra_hello: (Message::Hello msg) -> Message::Challenge
+
+    def handle_ticket_hello: (Message::Hello _msg) -> Message::Challenge
+
+    def handle_cryptosign_hello: (Message::Hello msg) -> Message::Challenge
+
+    def handle_anonymous_hello: (Message::Hello msg) -> Message::Welcome
+
+    def handle_authenticate_message: (Message::Authenticate msg) -> (Message::Welcome | Message::Abort)
+
+    def handle_wampcra_authenticate: (Message::Authenticate msg) -> (Message::Welcome | Message::Abort)
+
+    def abort_message: () -> Message::Abort
+
+    def handle_ticket_authenticate: (Message::Authenticate msg) -> (Message::Welcome | Message::Abort)
+
+    def handle_cryptosign_authenticate: (Message::Authenticate msg) -> (Message::Welcome | Message::Abort)
+
+    def create_session_id: () -> Integer
+  end
+end
+

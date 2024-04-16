@@ -13,6 +13,7 @@ target :lib do
   library "openssl" # Standard libraries
   library "securerandom" # Standard libraries
   library "time" # Standard libraries
+  library "forwardable" # Standard libraries
 
   # configure_code_diagnostics(D::Ruby.default)      # `default` diagnostics setting (applies by default)
   # configure_code_diagnostics(D::Ruby.strict)       # `strict` diagnostics setting

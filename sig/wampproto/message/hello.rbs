@@ -22,7 +22,7 @@ module Wampproto
 
       def authmethods: () -> Array[String]
 
-      def authextra: () -> (Hash[Symbol, untyped] | nil)
+      def authextra: () -> Hash[Symbol, untyped]
 
       def self.parse: (Array[untyped] wamp_message) -> Hello
 

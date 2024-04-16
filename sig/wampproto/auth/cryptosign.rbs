@@ -19,27 +19,19 @@ module Wampproto
 
       def authenticate: (Wampproto::Message::Challenge challenge) -> Wampproto::Message::Authenticate
 
-      def create_challenge: () -> (::Integer | ::Float | ::String | nil)
+      def self.create_challenge: () -> (::Integer | ::Float | ::String | nil)
 
-      def verify_challenge: (String signature, String msg) -> bool
+      def self.verify_challenge: (String signature, String msg, String public_key) -> bool
 
-      private
+      def self.sign_challenge: (String private_key, String challenge, ?String? channel_id) -> String
 
-      def key_pair: () -> untyped
+      def self.create_signature: (String private_key, String challenge, ?String? channel_id) -> untyped
 
-      def public_key: () -> String
+      def self.handle_without_channel_binding: (String private_key, String hex_challenge) -> ::String
 
-      def create_signature: (Wampproto::Message::Challenge challenge) -> String
+      def self.handle_channel_binding: (String private_key, String hex_challenge, String channel_id) -> ::String
 
-      def handle_without_channel_binding: (Hash[Symbol, untyped] extra) -> ::String
-
-      def handle_channel_binding: (Hash[Symbol, untyped] extra) -> ::String
-
-      def xored_strings: (String channel_id, String challenge_str) -> untyped
-
-      def hex_to_binary: (String hex_string) -> untyped
-
-      def binary_to_hex: (String binary_string) -> untyped
+      def self.xored_strings: (String channel_id, String challenge_str) -> String
     end
   end
 end
