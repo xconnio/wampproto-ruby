@@ -1,0 +1,32 @@
+module Wampproto
+  module Message
+    # publish message
+    class Publish < Base
+      @request_id: Integer
+
+      @options: Hash[Symbol, untyped]
+
+      @topic: String
+
+      @args: Array[untyped]
+
+      @kwargs: Hash[Symbol, untyped]
+
+      attr_reader request_id: Integer
+
+      attr_reader options: Hash[Symbol, untyped]
+
+      attr_reader topic: String
+
+      attr_reader args: Array[untyped]
+
+      attr_reader kwargs: Hash[Symbol, untyped]
+
+      def initialize: (Integer request_id, Hash[Symbol, untyped] options, String topic, *Array[untyped] args, **Hash[Symbol, untyped] kwargs) -> void
+
+      def marshal: () -> Array[untyped]
+
+      def self.parse: (Array[untyped] wamp_message) -> Publish
+    end
+  end
+end
