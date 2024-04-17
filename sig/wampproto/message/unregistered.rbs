@@ -1,0 +1,16 @@
+module Wampproto
+  module Message
+    # unregistered message
+    class Unregistered < Base
+      @request_id: Integer
+
+      attr_reader request_id: Integer
+
+      def initialize: (Integer request_id) -> void
+
+      def marshal: () -> ::Array[untyped]
+
+      def self.parse: (Array[untyped] wamp_message) -> Unregistered
+    end
+  end
+end
