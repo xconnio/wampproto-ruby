@@ -1,0 +1,28 @@
+module Wampproto
+  module Message
+    # abort message
+    class Error < Base
+      @message_type: Integer
+
+      @request_id: Integer
+
+      @details:  Hash[Symbol, untyped]
+
+      @error: String
+
+      attr_reader message_type: Integer
+
+      attr_reader request_id: Integer
+
+      attr_reader details: Hash[Symbol, untyped]
+
+      attr_reader error: String
+
+      def initialize: (Integer message_type, Integer request_id, Hash[Symbol, untyped] details, String error) -> void
+
+      def marshal: () -> ::Array[untyped]
+
+      def self.parse: (Array[untyped] wamp_message) -> Error
+    end
+  end
+end
