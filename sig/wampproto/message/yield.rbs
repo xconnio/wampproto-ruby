@@ -1,0 +1,30 @@
+module Wampproto
+  module Message
+    # yield message
+    class Yield < Base
+      @request_id: Integer
+
+      @options: Hash[Symbol, untyped]
+
+      @args: Array[untyped]
+
+      @kwargs: Hash[Symbol, untyped]
+
+      @payload: Array[untyped]
+
+      attr_reader request_id: Integer
+
+      attr_reader options: Hash[Symbol, untyped]
+
+      attr_reader args: Array[untyped]
+
+      attr_reader kwargs: Hash[Symbol, untyped]
+
+      def initialize: (Integer request_id, Hash[Symbol, untyped] options, *Array[untyped] args, **Hash[Symbol, untyped] kwargs) -> void
+
+      def marshal: () -> Array[untyped]
+
+      def self.parse: (Array[untyped] wamp_message) -> Yield
+    end
+  end
+end
