@@ -1,0 +1,43 @@
+module Wampproto
+  # Session
+  class Session
+    type serializerTypes = (singleton(Serializer::JSON) | singleton(Serializer::Msgpack) | singleton(Serializer::Cbor))
+
+    @serializer: serializerTypes
+    @call_requests: Hash[Integer, Integer]
+    @register_requests: Hash[Integer, Integer]
+    @registrations: Hash[Integer, Integer]
+    @invocation_requests: Hash[Integer, Integer]
+    @unregister_requests: Hash[Integer, Integer]
+    @publish_requests: Hash[Integer, Integer]
+    @subscribe_requests: Hash[Integer, Integer]
+    @subscriptions: Hash[Integer, Integer]
+    @unsubscribe_requests: Hash[Integer, Integer]
+
+    attr_reader serializer: serializerTypes
+    attr_reader call_requests: Hash[Integer, Integer]
+    attr_reader register_requests: Hash[Integer, Integer]
+    attr_reader registrations: Hash[Integer, Integer]
+    attr_reader invocation_requests: Hash[Integer, Integer]
+    attr_reader unregister_requests: Hash[Integer, Integer]
+    attr_reader publish_requests: Hash[Integer, Integer]
+    attr_reader subscribe_requests: Hash[Integer, Integer]
+    attr_reader subscriptions: Hash[Integer, Integer]
+    attr_reader unsubscribe_requests: Hash[Integer, Integer]
+
+    def initialize: (?serializerTypes serializer) -> void
+
+    ACCESSORS: ::Array[:call_requests | :register_requests | :registrations | :invocation_requests | :unregister_requests | :publish_requests | :subscribe_requests | :subscriptions | :unsubscribe_requests]
+
+    def send_message: (Message::Base msg) -> untyped
+
+    def receive: (untyped data) -> untyped
+
+    def receive_message: (Message::Base msg) -> untyped
+
+    private
+
+    def init_state: () -> untyped
+  end
+end
+

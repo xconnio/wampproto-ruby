@@ -8,6 +8,7 @@ require_relative "wampproto/auth"
 require_relative "wampproto/session_details"
 require_relative "wampproto/joiner"
 require_relative "wampproto/acceptor"
+require_relative "wampproto/session"
 
 module Wampproto
   class Error < StandardError; end
