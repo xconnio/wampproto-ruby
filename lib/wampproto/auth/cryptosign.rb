@@ -19,7 +19,7 @@ module Wampproto
       end
 
       def authenticate(challenge)
-        signature = create_signature(challenge)
+        signature = self.class.create_signature(private_key, challenge.extra[:challenge], channel_id)
         Message::Authenticate.new(signature)
       end
 
@@ -40,50 +40,46 @@ module Wampproto
 
           verify_key.verify(signature, message)
         end
-      end
 
-      private
+        def sign_challenge(private_key, challenge, channel_id = nil)
+          create_signature(private_key, challenge, channel_id)
+        end
 
-      def key_pair
-        @key_pair ||= Ed25519::SigningKey.new(hex_to_binary(private_key))
-      end
+        def create_signature(private_key, challenge, channel_id = nil)
+          return handle_channel_binding(private_key, challenge, channel_id) if channel_id
 
-      def public_key
-        binary_to_hex(key_pair.verify_key.to_bytes)
-      end
+          handle_without_channel_binding(private_key, challenge)
+        end
 
-      def create_signature(challenge)
-        extra = challenge.extra
-        return handle_channel_binding(extra) if channel_id
+        def handle_without_channel_binding(private_key, hex_challenge)
+          key_pair = Ed25519::SigningKey.new(hex_to_binary(private_key))
 
-        handle_without_channel_binding(extra)
-      end
+          binary_challenge  = hex_to_binary(hex_challenge)
+          binary_signature  = key_pair.sign(binary_challenge)
+          signature         = binary_to_hex(binary_signature)
 
-      def handle_without_channel_binding(extra)
-        hex_challenge     = extra[:challenge]
-        binary_challenge  = hex_to_binary(hex_challenge)
-        binary_signature  = key_pair.sign(binary_challenge)
-        signature         = binary_to_hex(binary_signature)
+          "#{signature}#{hex_challenge}"
+        end
 
-        "#{signature}#{hex_challenge}"
-      end
+        def handle_channel_binding(private_key, hex_challenge, channel_id)
+          key_pair = Ed25519::SigningKey.new(hex_to_binary(private_key))
 
-      def handle_channel_binding(extra)
-        channel_id              = hex_to_binary(self.channel_id)
-        challenge               = hex_to_binary(extra[:challenge])
-        xored_challenge         = xored_strings(channel_id, challenge)
-        binary_signed_challenge = key_pair.sign(xored_challenge)
-        signature               = binary_to_hex(binary_signed_challenge)
-        hex_xored_challenge     = binary_to_hex(xored_challenge)
-        "#{signature}#{hex_xored_challenge}"
-      end
+          channel_id              = hex_to_binary(channel_id)
+          challenge               = hex_to_binary(hex_challenge)
+          xored_challenge         = xored_strings(channel_id, challenge)
+          binary_signed_challenge = key_pair.sign(xored_challenge)
+          signature               = binary_to_hex(binary_signed_challenge)
+          hex_xored_challenge     = binary_to_hex(xored_challenge)
+          "#{signature}#{hex_xored_challenge}"
+        end
 
-      def xored_strings(channel_id, challenge_str)
-        channel_id_bytes = channel_id.bytes
-        challenge_bytes = challenge_str.bytes
-        # Added || 0 like (byte1 || 0) to make steep check happy
-        xored = channel_id_bytes.zip(challenge_bytes).map { |byte1, byte2| (byte1 || 0) ^ (byte2 || 0) }
-        xored.pack("C*")
+        def xored_strings(channel_id, challenge_str)
+          channel_id_bytes = channel_id.bytes
+          challenge_bytes = challenge_str.bytes
+          # Added || 0 like (byte1 || 0) to make steep check happy
+          xored = channel_id_bytes.zip(challenge_bytes).map { |byte1, byte2| (byte1 || 0) ^ (byte2 || 0) }
+          xored.pack("C*")
+        end
       end
     end
   end

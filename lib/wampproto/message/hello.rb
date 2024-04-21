@@ -21,7 +21,7 @@ module Wampproto
         details[:roles] = hsh.fetch(:roles, default_roles)
         details[:authid] = hsh.fetch(:authid, nil)
         details[:authmethods] = [*hsh.fetch(:authmethods, "anonymous")]
-        details[:authextra] = hsh.fetch(:authextra) if hsh[:authextra]
+        details[:authextra] = Validate.hash!("AuthExtra", hsh.fetch(:authextra)) if hsh[:authextra]
         details
       end
 
@@ -43,7 +43,7 @@ module Wampproto
       end
 
       def authextra
-        @authextra ||= details.fetch(:authextra) if details.member?(:authextra)
+        @authextra ||= details.fetch(:authextra, {})
       end
 
       private

@@ -1,0 +1,9 @@
+module Wampproto
+  class Acceptor
+    # Interface to handle Authentications
+    class Authenticator
+      def self.authenticate: (Request request) -> Response
+    end
+  end
+end
+

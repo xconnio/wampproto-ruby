@@ -1,0 +1,46 @@
+module Wampproto
+  class Acceptor
+    # Request object sent for authentication
+    class Request
+      @hello: Message::Hello
+
+      extend Forwardable
+
+      attr_reader realm: String
+
+      attr_reader authid: String
+
+      attr_reader authextra: Hash[Symbol, untyped]
+
+      attr_reader hello: Message::Hello
+
+      def initialize: (Message::Hello hello) -> void
+
+      def authmethod: () -> Symbol
+
+      def public_key: () -> String
+
+      def secret: () -> nil
+
+      def ticket: () -> nil
+    end
+
+    # AuthenticateRequest
+    class AuthenticateRequest < Request
+      @authenticate: Message::Authenticate
+
+      @hello_request: Request
+
+      extend Forwardable
+
+      attr_reader authenticate: Message::Authenticate
+
+      def initialize: (Message::Authenticate authenticate, Request hello_request) -> void
+
+      def ticket: () -> (String | nil)
+
+      def secret: () -> (String | nil)
+    end
+  end
+end
+
