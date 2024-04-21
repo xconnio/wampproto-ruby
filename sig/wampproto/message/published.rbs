@@ -1,0 +1,20 @@
+module Wampproto
+  module Message
+    # published message
+    class Published < Base
+      @request_id: Integer
+
+      @publication_id: Integer
+
+      attr_reader request_id: Integer
+
+      attr_reader publication_id: Integer
+
+      def initialize: (Integer request_id, Integer publication_id) -> void
+
+      def marshal: () -> ::Array[untyped]
+
+      def self.parse: (Array[untyped] wamp_message) -> Published
+    end
+  end
+end

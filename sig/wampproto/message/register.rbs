@@ -1,0 +1,24 @@
+module Wampproto
+  module Message
+    # publish message
+    class Register < Base
+      @request_id: Integer
+
+      @options: Hash[Symbol, untyped]
+
+      @procedure: String
+
+      attr_reader request_id: Integer
+
+      attr_reader options: Hash[Symbol, untyped]
+
+      attr_reader procedure: String
+
+      def initialize: (Integer request_id, Hash[Symbol, untyped] options, String procedure) -> void
+
+      def marshal: () -> ::Array[untyped]
+
+      def self.parse: (Array[untyped] wamp_message) -> Register
+    end
+  end
+end

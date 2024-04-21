@@ -1,0 +1,20 @@
+module Wampproto
+  module Message
+    # abort message
+    class Unsubscribe < Base
+      @request_id: Integer
+
+      @subscription_id: Integer
+
+      attr_reader request_id: Integer
+
+      attr_reader subscription_id: Integer
+
+      def initialize: (Integer request_id, Integer subscription_id) -> void
+
+      def marshal: () -> ::Array[untyped]
+
+      def self.parse: (Array[untyped] wamp_message) -> Unsubscribe
+    end
+  end
+end
