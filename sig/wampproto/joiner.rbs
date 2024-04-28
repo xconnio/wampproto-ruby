@@ -1,15 +1,6 @@
 module Wampproto
   CLIENT_ROLES: { caller: { features: ::Hash[untyped, untyped] }, callee: { features: ::Hash[untyped, untyped] }, publisher: { features: ::Hash[untyped, untyped] }, subscriber: { features: ::Hash[untyped, untyped] } }
 
-  # Custom Exception
-  class ProtocolViolation < StandardError
-    @uri: untyped
-
-    attr_reader uri: untyped
-
-    def initialize: (?::String msg, ?::String uri) -> void
-  end
-
   # Handle Joining part of wamp protocol
   class Joiner
     @realm: String

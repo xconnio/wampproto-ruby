@@ -13,7 +13,7 @@ module Wampproto
       end
 
       def marshal
-        [Type::REGISTERED, request_id, registration_id]
+        [Type::UNREGISTER, request_id, registration_id]
       end
 
       def self.parse(wamp_message)

@@ -21,7 +21,15 @@ RSpec.describe Wampproto::Session do
       end
 
       context "when call message was not sent" do
-        it { expect { session.receive_message(result_message) }.to raise_exception(StandardError) }
+        it { expect { session.receive_message(result_message) }.to raise_exception(Wampproto::ValueError) }
+      end
+
+      context "when error message was received" do
+        let(:error_message) do
+          Wampproto::Message::Error.new(Wampproto::Message::Type::CALL, request_id, {}, "wamp.error")
+        end
+
+        it { expect { session.receive_message(result_message) }.to raise_exception(Wampproto::ValueError) }
       end
     end
   end
@@ -55,7 +63,7 @@ RSpec.describe Wampproto::Session do
       end
 
       context "when register message was NOT sent" do
-        it { expect { session.receive_message(result_message) }.to raise_exception(StandardError) }
+        it { expect { session.receive_message(registered_message) }.to raise_exception(Wampproto::ValueError) }
       end
     end
   end
@@ -89,7 +97,7 @@ RSpec.describe Wampproto::Session do
       end
 
       context "when subscribe message was NOT sent" do
-        it { expect { session.receive_message(subscribed_message) }.to raise_exception(StandardError) }
+        it { expect { session.receive_message(subscribed_message) }.to raise_exception(Wampproto::ValueError) }
       end
     end
   end
@@ -104,7 +112,7 @@ RSpec.describe Wampproto::Session do
       subject { session.receive_message(published_message) }
 
       context "when options.acknowledge is NOT sent" do
-        it { expect { session.receive_message(published_message) }.to raise_exception(StandardError) }
+        it { expect { session.receive_message(published_message) }.to raise_exception(Wampproto::ValueError) }
       end
 
       context "when option.acknowledge is sent" do
@@ -137,13 +145,13 @@ RSpec.describe Wampproto::Session do
       end
 
       context "when yield message is sent WITHOUT invocation" do
-        it { expect { session.send_message(yield_message) }.to raise_error(StandardError) }
+        it { expect { session.send_message(yield_message) }.to raise_error(Wampproto::ValueError) }
       end
     end
 
     context "when procedure is NOT registered" do
       context "when invocation message is received" do
-        it { expect { session.receive_message(invocation_message) }.to raise_exception(StandardError) }
+        it { expect { session.receive_message(invocation_message) }.to raise_exception(Wampproto::ValueError) }
       end
     end
   end

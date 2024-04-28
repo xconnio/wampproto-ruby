@@ -4,7 +4,11 @@ module Wampproto
     class Base
       def self.parse: (Array[untyped] msg) -> Base
 
+      def self.type: () -> Integer
+
       def marshal: () -> Array[untyped]
+
+      def type: () -> Integer
     end
   end
 end

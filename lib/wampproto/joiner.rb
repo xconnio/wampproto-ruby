@@ -8,16 +8,6 @@ module Wampproto
     subscriber: { features: {} }
   }.freeze
 
-  # Custom Exception
-  class ProtocolViolation < StandardError
-    attr_reader :uri
-
-    def initialize(msg = "Protocol Violation", uri = "wamp.error.protocol_violation")
-      @uri = uri
-      super(msg)
-    end
-  end
-
   # Handle Joining part of wamp protocol
   class Joiner
     STATE_NONE = 0
@@ -75,9 +65,9 @@ module Wampproto
         self.state = STATE_AUTHENTICATE_SENT
         authenticate
       when Message::Abort
-        raise StandardError, "received abort"
+        raise ValueError, "received abort"
       else
-        raise StandardError, "received unknown message"
+        raise ValueError, "received unknown message"
       end
     end
   end

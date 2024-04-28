@@ -12,5 +12,17 @@ require_relative "wampproto/session"
 
 module Wampproto
   class Error < StandardError; end
-  # Your code goes here...
+
+  # ProtocolViolation Exception
+  class ProtocolViolation < StandardError
+    attr_reader :uri
+
+    def initialize(msg = "Protocol Violation", uri = "wamp.error.protocol_violation")
+      @uri = uri
+      super(msg)
+    end
+  end
+
+  class ValueError < StandardError
+  end
 end
