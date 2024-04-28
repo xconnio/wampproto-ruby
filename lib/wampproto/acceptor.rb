@@ -51,7 +51,7 @@ module Wampproto
     private
 
     def handle_hello_message(msg) # rubocop:disable Metrics/MethodLength
-      raise StandardError, "unknown state" if state != STATE_NONE
+      raise ValueError, "unknown state" if state != STATE_NONE
 
       @hello = msg
       @authid = msg.authid
@@ -70,7 +70,7 @@ module Wampproto
       when "anonymous"
         handle_anonymous_hello(msg)
       else
-        raise StandardError, "unknown method"
+        raise ValueError, "unknown method"
       end
     end
 
@@ -88,7 +88,7 @@ module Wampproto
 
     def handle_cryptosign_hello(msg)
       @public_key = msg.authextra[:pubkey]
-      raise StandardError, "authextra must contain pubkey for cryptosign" unless @public_key
+      raise ValueError, "authextra must contain pubkey for cryptosign" unless @public_key
 
       @challenge = Auth::Cryptosign.create_challenge
       self.state = STATE_CHALLENGE_SENT
@@ -109,7 +109,7 @@ module Wampproto
     end
 
     def handle_authenticate_message(msg) # rubocop:disable Metrics/MethodLength
-      raise StandardError, "unknown state" if state != STATE_CHALLENGE_SENT
+      raise ValueError, "unknown state" if state != STATE_CHALLENGE_SENT
 
       @auth_request = AuthenticateRequest.new(msg, @request)
       @response = authenticator.authenticate(@auth_request)

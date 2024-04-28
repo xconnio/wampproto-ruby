@@ -2,4 +2,16 @@ module Wampproto
   VERSION: String
   class Error < StandardError
   end
+
+  # ProtocolViolation Exception
+  class ProtocolViolation < StandardError
+    @uri: String
+
+    attr_reader uri: String
+
+    def initialize: (?::String msg, ?::String uri) -> void
+  end
+
+  class ValueError < StandardError
+  end
 end
