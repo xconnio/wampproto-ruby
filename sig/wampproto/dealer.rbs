@@ -1,0 +1,43 @@
+module Wampproto
+  # Wamprpoto Dealer handler
+  class Dealer
+    @registrations_by_session: Hash[Integer, Hash[Integer, String]]
+
+    @registrations_by_procedure: Hash[String, Hash[Integer, Integer]]
+
+    @pending_calls: Hash[Integer, Hash[Integer, Integer]]
+
+    @pending_invocations: Hash[Integer, Hash[Integer, Integer]]
+
+    @id_gen: IdGenerator
+
+    attr_reader registrations_by_procedure: Hash[String, Hash[Integer, Integer]]
+
+    attr_reader registrations_by_session: Hash[Integer, Hash[Integer, String]]
+
+    attr_reader pending_calls: Hash[Integer, Hash[Integer, Integer]]
+
+    attr_reader pending_invocations: Hash[Integer, Hash[Integer, Integer]]
+
+    attr_reader id_gen: IdGenerator
+
+    def initialize: (?IdGenerator id_gen) -> void
+
+    def add_session: (Integer session_id) -> untyped
+
+    def remove_session: (Integer session_id) -> untyped
+
+    def registration?: (String procedure) -> (false | untyped)
+
+    def receive_message: (Integer session_id, untyped message) -> untyped
+
+    def handle_call: (Integer session_id, Message::Call message) -> MessageWithRecipient
+
+    def handle_yield: (Integer session_id, Message::Yield message) -> (nil | MessageWithRecipient)
+
+    def handle_register: (Integer session_id, Message::Register message) -> (nil | MessageWithRecipient)
+
+    def handle_unregister: (Integer session_id, Message::Unregister message) -> (nil | MessageWithRecipient)
+  end
+end
+

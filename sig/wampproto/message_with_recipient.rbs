@@ -1,0 +1,15 @@
+module Wampproto
+  # handler class for dealer and broker responses
+  class MessageWithRecipient
+    @message: untyped
+
+    @recipient: Integer
+
+    attr_reader message: untyped
+
+    attr_reader recipient: Integer
+
+    def initialize: (untyped message, Integer recipient) -> void
+  end
+end
+
