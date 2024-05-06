@@ -114,7 +114,7 @@ module Wampproto
       registrations = registrations_by_session.fetch(session_id)
 
       unless registrations.include?(message.registration_id)
-        error = Message::Error.new(Message::Type::CALL, message.request_id, {}, "wamp.error.no_such_registration")
+        error = Message::Error.new(Message::Type::UNREGISTER, message.request_id, {}, "wamp.error.no_such_registration")
         return MessageWithRecipient.new(error, session_id)
       end
 

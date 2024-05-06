@@ -1,0 +1,40 @@
+module Wampproto
+  # Wampproto broker implementation
+  class Broker
+    @id_gen: untyped
+
+    @subscriptions_by_session: Hash[Integer, Hash[Integer, String]]
+
+    @subscriptions_by_topic: Hash[String, Hash[Integer, Array[Integer]]]
+
+    attr_reader subscriptions_by_session: Hash[Integer, Hash[Integer, String]]
+
+    attr_reader subscriptions_by_topic: Hash[String, Hash[Integer, Array[Integer]]]
+
+    attr_reader id_gen: IdGenerator
+
+    def initialize: (?IdGenerator id_gen) -> void
+
+    def add_session: (Integer session_id) -> untyped
+
+    def remove_session: (Integer session_id) -> untyped
+
+    def subscription?: (String topic) -> (false | untyped)
+
+    def receive_message: (Integer session_id, untyped message) -> untyped
+
+    def handle_publish: (Integer session_id, Message::Publish message) -> untyped
+
+    def handle_subscribe: (Integer session_id, Message::Subscribe message) -> untyped
+
+    def handle_unsubscribe: (Integer session_id, Message::Unsubscribe message) -> untyped
+
+    private
+
+    def find_subscription_id_from: (String topic) -> Integer
+
+    def remove_topic_subscriber: (String topic, Integer subscription_id, Integer session_id) -> untyped
+
+    def add_topic_subscriber: (String topic, Integer subscription_id, Integer session_id) -> untyped
+  end
+end
