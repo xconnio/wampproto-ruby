@@ -3,10 +3,11 @@
 module Wampproto
   module Message
     # abort message
-    class Subscribed
+    class Subscribed < Base
       attr_reader :request_id, :subscription_id
 
       def initialize(request_id, subscription_id)
+        super()
         @request_id = Validate.int!("Request Id", request_id)
         @subscription_id = Validate.int!("Subscription Id", subscription_id)
       end
