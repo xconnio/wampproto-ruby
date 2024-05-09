@@ -12,6 +12,7 @@ require_relative "wampproto/acceptor"
 require_relative "wampproto/session"
 require_relative "wampproto/message_with_recipient"
 require_relative "wampproto/dealer"
+require_relative "wampproto/broker"
 
 module Wampproto
   class Error < StandardError; end
