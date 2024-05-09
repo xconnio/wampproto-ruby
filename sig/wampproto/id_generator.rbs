@@ -1,0 +1,17 @@
+module Wampproto
+  # ID Generator
+  class IdGenerator
+    self.@ids: Array[Integer]
+
+    @id: Integer
+
+    MAX_ID: Integer
+
+    def self.generate_session_id: () -> Integer
+
+    def initialize: () -> void
+
+    def next: () -> Integer
+  end
+end
+

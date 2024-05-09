@@ -5,10 +5,13 @@ require_relative "wampproto/validate"
 require_relative "wampproto/message"
 require_relative "wampproto/serializer"
 require_relative "wampproto/auth"
+require_relative "wampproto/id_generator"
 require_relative "wampproto/session_details"
 require_relative "wampproto/joiner"
 require_relative "wampproto/acceptor"
 require_relative "wampproto/session"
+require_relative "wampproto/message_with_recipient"
+require_relative "wampproto/dealer"
 
 module Wampproto
   class Error < StandardError; end
