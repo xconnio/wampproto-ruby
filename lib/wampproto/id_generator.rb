@@ -5,15 +5,9 @@ module Wampproto
   class IdGenerator
     MAX_ID = 1 << 53
 
-    @ids = {}
     class << self
       def generate_session_id
-        id = rand(100_000..MAX_ID)
-        if @ids.include?(id)
-          generate_session_id
-        else
-          @ids[id] = id
-        end
+        rand(1..MAX_ID)
       end
     end
 
@@ -22,11 +16,8 @@ module Wampproto
     end
 
     def next
-      if @id == MAX_ID
-        @id = 0
-      else
-        @id += 1
-      end
+      @id = 0 if @id == MAX_ID
+      @id += 1
     end
   end
 end
