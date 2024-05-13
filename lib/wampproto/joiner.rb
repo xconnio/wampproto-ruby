@@ -52,6 +52,7 @@ module Wampproto
     def receive_message(msg) # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
       case msg
       when Message::Welcome
+        puts "Hello World"
         if state != STATE_HELLO_SENT && state != STATE_AUTHENTICATE_SENT
           raise ProtocolViolation, "Received WELCOME message after session was established"
         end
