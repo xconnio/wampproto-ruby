@@ -7,15 +7,19 @@ module Wampproto
 
     @subscriptions_by_topic: Hash[String, Hash[Integer, Array[Integer]]]
 
+    @sessions: Hash[Integer, SessionDetails]
+
     attr_reader subscriptions_by_session: Hash[Integer, Hash[Integer, String]]
 
     attr_reader subscriptions_by_topic: Hash[String, Hash[Integer, Array[Integer]]]
+
+    attr_reader sessions: Hash[Integer, SessionDetails]
 
     attr_reader id_gen: IdGenerator
 
     def initialize: (?IdGenerator id_gen) -> void
 
-    def add_session: (Integer session_id) -> untyped
+    def add_session: (SessionDetails session_id) -> untyped
 
     def remove_session: (Integer session_id) -> untyped
 
@@ -36,5 +40,9 @@ module Wampproto
     def remove_topic_subscriber: (String topic, Integer subscription_id, Integer session_id) -> untyped
 
     def add_topic_subscriber: (String topic, Integer subscription_id, Integer session_id) -> untyped
+
+    def exclude?: (untyped message, Integer session_id, Integer recipient_id) -> (false | untyped)
+
+    def event_details_for: (Integer session_id, untyped message) -> Hash[Symbol, untyped]
   end
 end
