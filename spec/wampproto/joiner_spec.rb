@@ -18,8 +18,9 @@ RSpec.describe Wampproto::Joiner do
         let(:welcome) { Wampproto::Message::Welcome.new(session_id) }
         let(:message) { Wampproto::Serializer::JSON.serialize(welcome) }
 
-        it "state should be JOINED" do
+        it "state should be JOINED" do # rubocop:disable RSpec/MultipleExpectations
           expect(joiner.state).to eq Wampproto::Joiner::STATE_JOINED
+          expect(joiner).to be_joined
         end
       end
     end

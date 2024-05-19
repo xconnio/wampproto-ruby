@@ -25,6 +25,10 @@ module Wampproto
       @state = STATE_NONE
     end
 
+    def joined?
+      @state == STATE_JOINED
+    end
+
     def send_hello # rubocop:disable Metrics/MethodLength
       hello = Message::Hello.new(
         realm,
