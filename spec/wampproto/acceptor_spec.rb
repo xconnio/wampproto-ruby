@@ -31,6 +31,10 @@ RSpec.describe Wampproto::Acceptor do
         before { receive_hello }
 
         it { is_expected.to eq Wampproto::Acceptor::STATE_WELCOME_SENT }
+
+        it "is accepted" do
+          expect(acceptor).to be_accepted
+        end
       end
     end
 

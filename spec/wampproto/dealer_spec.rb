@@ -2,13 +2,17 @@
 
 RSpec.describe Wampproto::Dealer do
   let(:session_id) { 123_456 }
+  let(:realm) { "realm1" }
+  let(:authid) { "peter" }
+  let(:authrole) { "user" }
+  let(:sessoin_details) { Wampproto::SessionDetails.new(session_id, realm, authid, authrole) }
   let(:request_id) { 1 }
   let(:procedure) { "com.hello.first" }
   let(:dealer) { described_class.new }
   let(:register) { Wampproto::Message::Register.new(request_id, {}, procedure) }
 
   context "when session is added" do
-    before { dealer.add_session(session_id) }
+    before { dealer.add_session(sessoin_details) }
 
     context "when procedure is registered" do
       subject { register_response.message }
@@ -70,13 +74,24 @@ RSpec.describe Wampproto::Dealer do
       context "when call message is received from caller_id" do
         subject { call_response.message }
 
-        before { register_response }
+        before do
+          register_response
+          dealer.add_session(caller_session_details)
+        end
 
         let(:caller_id) { 456_789 }
-        let(:call) { Wampproto::Message::Call.new(request_id, {}, procedure, 1) }
+        let(:realm) { "realm1" }
+        let(:authid) { "alex" }
+        let(:authrole) { "user" }
+        let(:caller_session_details) { Wampproto::SessionDetails.new(caller_id, realm, authid, authrole) }
+        let(:call) { Wampproto::Message::Call.new(request_id, { disclose_me: true }, procedure, 1) }
         let(:call_response) { dealer.receive_message(caller_id, call) }
 
         it { is_expected.to be_instance_of Wampproto::Message::Invocation }
+
+        it "has caller identifiers" do
+          expect(call_response.message.details).to include(:caller)
+        end
 
         context "when calling unregistered procedure" do
           let(:call) { Wampproto::Message::Call.new(request_id, {}, "invalid.procedure", 1) }
@@ -97,7 +112,10 @@ RSpec.describe Wampproto::Dealer do
           context "when session is removed" do
             subject { dealer.registrations_by_session }
 
-            before { dealer.remove_session(session_id) }
+            before do
+              dealer.remove_session(session_id)
+              dealer.remove_session(caller_id)
+            end
 
             it { is_expected.to be_empty }
 

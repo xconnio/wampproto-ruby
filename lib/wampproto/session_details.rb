@@ -3,7 +3,7 @@
 module Wampproto
   # Session Details
   class SessionDetails
-    attr_reader :session_id, :realm, :property, :authrole
+    attr_reader :session_id, :realm, :authid, :authrole
 
     def initialize(session_id, realm, authid, authrole)
       @session_id = session_id

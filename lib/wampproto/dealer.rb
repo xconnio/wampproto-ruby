@@ -3,7 +3,8 @@
 module Wampproto
   # Wamprpoto Dealer handler
   class Dealer
-    attr_reader :registrations_by_procedure, :registrations_by_session, :pending_calls, :pending_invocations, :id_gen
+    attr_reader :registrations_by_procedure, :registrations_by_session, :pending_calls, :pending_invocations, :id_gen,
+                :sessions
 
     def initialize(id_gen = IdGenerator.new)
       @registrations_by_session = {}
@@ -11,13 +12,17 @@ module Wampproto
       @pending_calls = {}
       @pending_invocations = {}
       @id_gen = id_gen
+      @sessions = {}
     end
 
-    def add_session(session_id)
+    def add_session(details)
+      session_id = details.session_id
+
       error_message = "cannot add session twice"
       raise KeyError, error_message if registrations_by_session.include?(session_id)
 
       registrations_by_session[session_id] = {}
+      sessions[session_id] = details
     end
 
     def remove_session(session_id)
@@ -28,6 +33,7 @@ module Wampproto
       registrations.each do |registration_id, procedure|
         registrations_by_procedure[procedure].delete(registration_id)
       end
+      sessions.delete(session_id)
     end
 
     def registration?(procedure)
@@ -73,12 +79,19 @@ module Wampproto
       invocation = Message::Invocation.new(
         request_id,
         registration_id,
-        {},
+        invocation_details_for(session_id, message),
         *message.args,
         **message.kwargs
       )
 
       MessageWithRecipient.new(invocation, callee_id)
+    end
+
+    def invocation_details_for(session_id, message)
+      return {} unless message.options.include?(:disclose_me)
+
+      session = sessions[session_id]
+      { caller: session_id, caller_authid: session.authid, caller_authrole: session.authrole }
     end
 
     def handle_yield(session_id, message)

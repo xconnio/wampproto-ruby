@@ -27,6 +27,10 @@ module Wampproto
       # @session_details = SessionDetails
     end
 
+    def accepted?
+      @state == STATE_WELCOME_SENT
+    end
+
     def receive(data)
       msg = serializer.deserialize(data)
       to_send = receive_message(msg)
