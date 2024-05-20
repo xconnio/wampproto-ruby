@@ -77,7 +77,7 @@ module Wampproto
         raise ValueError, error_message unless registrations.delete(registration_id)
       when Message::Invocation
         error_message = "received INVOCATION for invalid registration_id"
-        raise ValueError, error_message unless registrations.include?(msg.registration_id)
+        raise ValueError, error_message unless registrations.delete(msg.registration_id)
 
         invocation_requests[msg.request_id] = msg.request_id
       when Message::Published
