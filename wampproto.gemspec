@@ -12,7 +12,7 @@ Gem::Specification.new do |spec|
   spec.description = "Sans-IO WAMP protocol implementation in Ruby"
   spec.homepage = "https://github.com/xconnio/wampproto.rb"
   spec.license = "MIT"
-  spec.required_ruby_version = ">= 3.3.0"
+  spec.required_ruby_version = ">= 3.1.0"
 
   # spec.metadata["allowed_push_host"] = "TODO: Set to your gem server 'https://example.com'"
 

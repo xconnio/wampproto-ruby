@@ -80,9 +80,9 @@ RSpec.describe Wampproto::Auth::Cra do
         Wampproto::Message::Challenge.new(
           "cryptosign", {
             challenge: challenge_msg,
-            salt:,
-            keylen:,
-            iterations:
+            salt: salt,
+            keylen: keylen,
+            iterations: iterations
           }
         )
       end

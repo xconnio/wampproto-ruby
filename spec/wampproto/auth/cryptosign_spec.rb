@@ -9,7 +9,7 @@ RSpec.describe Wampproto::Auth::Cryptosign do
 
   describe "#authenticate" do
     let(:challenge) do
-      Wampproto::Message::Challenge.new("cryptosign", { challenge: challenge_str, channel_binding: })
+      Wampproto::Message::Challenge.new("cryptosign", { challenge: challenge_str, channel_binding: channel_binding })
     end
 
     context "without channel_binding" do
@@ -43,7 +43,7 @@ RSpec.describe Wampproto::Auth::Cryptosign do
       # rubocop:enable Layout/LineLength
 
       let(:challenge) do
-        Wampproto::Message::Challenge.new("cryptosign", { challenge: challenge_str, channel_binding: })
+        Wampproto::Message::Challenge.new("cryptosign", { challenge: challenge_str, channel_binding: channel_binding })
       end
 
       context "when challenge is received" do

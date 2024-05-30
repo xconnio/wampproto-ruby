@@ -33,12 +33,12 @@ module Wampproto
         def create_challenge(session_id, authid, authrole, authprovider)
           nounce = binary_to_hex(SecureRandom.random_bytes(16))
           {
-            authid:,
-            authrole:,
-            authprovider:,
-            nounce:,
+            authid: authid,
+            authrole: authrole,
+            authprovider: authprovider,
+            nounce: nounce,
             authmethod: AUTH_METHOD,
-            session_id:,
+            session_id: session_id,
             timestamp: Time.now.utc.iso8601(3)
           }.to_json
         end
@@ -65,7 +65,7 @@ module Wampproto
         end
 
         def create_derive_secret(secret, salt, length, iterations)
-          key = OpenSSL::KDF.pbkdf2_hmac(secret, salt:, iterations:, length:, hash: "SHA256")
+          key = OpenSSL::KDF.pbkdf2_hmac(secret, salt: salt, iterations: iterations, length: length, hash: "SHA256")
           binary_to_hex(key)
         end
       end
