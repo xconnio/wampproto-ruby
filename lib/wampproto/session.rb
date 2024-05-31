@@ -36,7 +36,7 @@ module Wampproto
           raise ValueError, "cannot yield for unknown invocation request"
         end
 
-        invocation_requests.delete(msg.request_id)
+        invocation_requests.delete(msg.request_id) unless msg.options[:progress]
       when Message::Publish
         publish_requests[msg.request_id] = msg.request_id if msg.options.fetch(:acknowledge, false)
       when Message::Subscribe
@@ -62,7 +62,8 @@ module Wampproto
       case msg
       when Message::Result
         error_message = "received RESULT for invalid request_id"
-        raise ValueError, error_message unless call_requests.delete(msg.request_id)
+        request_id = msg.details[:progress] ? call_requests.fetch(msg.request_id) : call_requests.delete(msg.request_id)
+        raise ValueError, error_message unless request_id
       when Message::Registered
         error_message = "received REGISTERED for invalid request_id"
         raise ValueError, error_message unless register_requests.delete(msg.request_id)
