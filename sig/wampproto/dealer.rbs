@@ -7,9 +7,9 @@ module Wampproto
 
     @sessions: Hash[Integer, SessionDetails]
 
-    @pending_calls: Hash[Integer, Hash[Integer, Integer]]
+    PendingInvocation: untyped
 
-    @pending_invocations: Hash[Integer, Hash[Integer, Integer]]
+    @pending_calls: Hash[[Integer, Integer], untyped]
 
     @id_gen: IdGenerator
 
@@ -19,9 +19,7 @@ module Wampproto
 
     attr_reader sessions: Hash[Integer, SessionDetails]
 
-    attr_reader pending_calls: Hash[Integer, Hash[Integer, Integer]]
-
-    attr_reader pending_invocations: Hash[Integer, Hash[Integer, Integer]]
+    attr_reader pending_calls: Hash[[Integer, Integer], untyped]
 
     attr_reader id_gen: IdGenerator
 
@@ -44,6 +42,8 @@ module Wampproto
     def handle_unregister: (Integer session_id, Message::Unregister message) -> (nil | MessageWithRecipient)
 
     def invocation_details_for: (Integer session_id, untyped message) -> Hash[Symbol, untyped]
+
+    def result_details_for: (Integer _session_id, untyped message) -> Hash[Symbol, untyped]
   end
 end
 

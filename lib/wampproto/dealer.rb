@@ -2,15 +2,16 @@
 
 module Wampproto
   # Wamprpoto Dealer handler
-  class Dealer
-    attr_reader :registrations_by_procedure, :registrations_by_session, :pending_calls, :pending_invocations, :id_gen,
+  class Dealer # rubocop:disable Metrics/ClassLength
+    PendingInvocation = Struct.new(:caller_id, :callee_id, :call_id, :invocation_id, :receive_progress, :progress)
+
+    attr_reader :registrations_by_procedure, :registrations_by_session, :pending_calls, :id_gen,
                 :sessions
 
     def initialize(id_gen = IdGenerator.new)
       @registrations_by_session = {}
       @registrations_by_procedure = Hash.new { |h, k| h[k] = {} }
       @pending_calls = {}
-      @pending_invocations = {}
       @id_gen = id_gen
       @sessions = {}
     end
@@ -63,23 +64,18 @@ module Wampproto
 
       registration_id, callee_id = registrations.first
 
-      pending_calls[callee_id] = {} unless pending_calls.include?(callee_id)
-      pending_invocations[callee_id] = {} unless pending_invocations.include?(callee_id)
-
-      # we received call from the "caller" lets call that request_id "1"
-      # we need to send invocation message to "callee" let call that request_id "10"
-      # we need "caller" id after we have received yield so that request_id will be "10"
-      # we need to send request to "caller" to the original request_id 1
       request_id = id_gen.next
 
-      pending_invocations[callee_id][request_id] = session_id
+      details = invocation_details_for(session_id, message)
 
-      pending_calls[callee_id][session_id] = message.request_id
+      pending_calls[[callee_id, request_id]] = PendingInvocation.new(
+        session_id, callee_id, message.request_id, request_id, details[:receive_progress]
+      )
 
       invocation = Message::Invocation.new(
         request_id,
         registration_id,
-        invocation_details_for(session_id, message),
+        details,
         *message.args,
         **message.kwargs
       )
@@ -88,24 +84,40 @@ module Wampproto
     end
 
     def invocation_details_for(session_id, message)
-      return {} unless message.options.include?(:disclose_me)
+      options = {}
+      return options if message.options.empty?
+
+      receive_progress = message.options[:receive_progress]
+      options.merge!(receive_progress: true) if receive_progress
+
+      return options unless message.options.include?(:disclose_me)
 
       session = sessions[session_id]
-      { caller: session_id, caller_authid: session.authid, caller_authrole: session.authrole }
+      options.merge({ caller: session_id, caller_authid: session.authid, caller_authrole: session.authrole })
     end
 
-    def handle_yield(session_id, message)
-      calls = pending_calls.fetch(session_id, {})
+    def handle_yield(session_id, message) # rubocop:disable Metrics/AbcSize
+      pending_invocation = pending_calls[[session_id, message.request_id]]
       error_message = "no pending calls for session #{session_id}"
-      raise ValueError, error_message if calls.empty?
+      raise ValueError, error_message if pending_invocation.nil?
 
-      invocations = pending_invocations[session_id]
-      caller_id = invocations.delete(message.request_id).to_i # make steep happy
+      caller_id   = pending_invocation.caller_id
+      request_id  = pending_invocation.call_id
+      pending_calls.delete([session_id, message.request_id]) unless message.options[:progress]
 
-      request_id = calls.delete(caller_id)
-
-      result = Message::Result.new(request_id, {}, *message.args, **message.kwargs)
+      result = Message::Result.new(request_id, result_details_for(session_id, message), *message.args, **message.kwargs)
       MessageWithRecipient.new(result, caller_id)
+    end
+
+    def result_details_for(session_id, message)
+      options = {}
+      return options if message.options.empty?
+
+      pending_invocation = pending_calls[[session_id, message.request_id]]
+
+      progress = message.options[:progress] && pending_invocation.receive_progress
+      options.merge!(progress:) if progress
+      options
     end
 
     def handle_register(session_id, message)

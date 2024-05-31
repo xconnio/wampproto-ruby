@@ -93,6 +93,30 @@ RSpec.describe Wampproto::Dealer do
           expect(call_response.message.details).to include(:caller)
         end
 
+        context "when progressive call is made" do
+          let(:args) { [2020, 2021, 2022, 2023] }
+          let(:progressive_call) do
+            Wampproto::Message::Call.new(request_id, { receive_progress: true }, procedure, args)
+          end
+          let(:call_response) { dealer.receive_message(caller_id, progressive_call) }
+
+          it { is_expected.to be_instance_of Wampproto::Message::Invocation }
+
+          it "sends progressive call result" do # rubocop:disable RSpec/ExampleLength, RSpec/MultipleExpectations
+            call_response
+            args.each_with_index do |_year, index|
+              progress_yield = Wampproto::Message::Yield.new(request_id + 1, { progress: true }, index + 1)
+              msg = dealer.receive_message(session_id, progress_yield).message
+              expect(msg).to be_instance_of(Wampproto::Message::Result)
+              expect(msg.details).to include(:progress)
+            end
+            progress_yield = Wampproto::Message::Yield.new(request_id + 1, {})
+            msg = dealer.receive_message(session_id, progress_yield).message
+            expect(msg).to be_instance_of(Wampproto::Message::Result)
+            expect(msg.details).not_to include(:progress)
+          end
+        end
+
         context "when calling unregistered procedure" do
           let(:call) { Wampproto::Message::Call.new(request_id, {}, "invalid.procedure", 1) }
 
