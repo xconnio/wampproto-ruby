@@ -1,0 +1,106 @@
+module Wampproto
+  module Message
+    class Fields
+
+      attr_accessor request_id: Integer | nil
+      attr_accessor uri: String | nil
+      attr_accessor args: Array[untyped] | nil
+      attr_accessor kwargs: Hash[Symbol, untyped] | nil
+
+      attr_accessor session_id: Integer | nil
+
+      attr_accessor realm: String | nil
+      attr_accessor authid: String | nil
+      attr_accessor authrole: String | nil
+      attr_accessor authmethod: String | nil
+      attr_accessor authmethods: Array[String] | nil
+      attr_accessor authextra: Hash[Symbol, untyped] | nil
+      attr_accessor roles: Hash[Symbol, untyped] | nil
+
+      attr_accessor message_type: Integer | nil
+      attr_accessor signature: String | nil
+      attr_accessor reason: String | nil
+      attr_accessor topic: String | nil
+
+      attr_accessor extra: Hash[Symbol, untyped] | nil
+      attr_accessor options: Hash[Symbol, untyped] | nil
+      attr_accessor details: Hash[Symbol, untyped] | nil
+
+      attr_accessor subscription_id: Integer | nil
+      attr_accessor publication_id: Integer | nil
+
+      attr_accessor registration_id: Integer | nil
+    end
+
+    module Util
+      MIN_ID: Integer
+      MAX_ID: Integer
+      DEFAULT_ROLES: Hash[Symbol, Hash[untyped, untyped]]
+
+      def validate_int: (Integer value, Integer index, String message) -> (String | nil)
+
+      def validate_string: (String value, Integer index, String message) -> (String | nil)
+
+      def validate_list: (Array[untyped] value, Integer index, String message) -> (String | nil)
+
+      def validate_hash: (Hash[String, untyped] value, Integer index, String message) -> (String | nil)
+
+      def validate_id: (Integer value, Integer index, String message) -> (String | nil)
+
+      def validate_request_id: (Array[untyped] wamp_msg, Integer index, Fields fields, String message) -> (String | nil)
+
+      def validate_uri: (Array[untyped] wamp_msg, Integer index, Fields fields, String message) -> (String | nil)
+
+      def validate_args: (Array[untyped] wamp_msg, Integer index, Fields fields, String message) -> (String | nil)
+
+      def validate_kwargs: (Array[untyped] wamp_msg, Integer index, Fields fields, String message) -> (String | nil)
+
+      def validate_session_id: (Array[untyped] wamp_msg, Integer index, Fields fields, String message) -> (String | nil)
+
+      def validate_realm: (Array[untyped] wamp_msg, Integer index, Fields fields, String message) -> (String | nil)
+
+      def validate_authid: (Hash[String, untyped] details, Integer index, Fields fields, String message) -> (String | nil)
+
+      def validate_authrole: (Hash[String, untyped] details, Integer index, Fields fields, String message) -> (String | nil)
+
+      def validate_authmethod: (Array[untyped] wamp_msg, Integer index, Fields fields, String message) -> (String | nil)
+
+      def validate_authmethods: (Hash[String, untyped] details, Integer index, Fields fields, String message) -> (String | nil)
+
+      def validate_welcome_authmethod: (Hash[String, untyped] details, Integer index, Fields fields, String message) -> (String | nil)
+
+      def validate_authextra: (Hash[String, untyped] details, Integer index, Fields fields, String message) -> (String | nil)
+
+      def validate_roles: (Hash[String, untyped] details, Integer index, Fields fields, String message) -> (String | nil)
+
+      def validate_message_type: (Array[untyped] wamp_msg, Integer index, Fields fields, String message) -> (String | nil)
+
+      def validate_signature: (Array[untyped] wamp_msg, Integer index, Fields fields, String message) -> (String | nil)
+
+      def validate_reason: (Array[untyped] wamp_msg, Integer index, Fields fields, String message) -> (String | nil)
+
+      def validate_topic: (Array[untyped] wamp_msg, Integer index, Fields fields, String message) -> (String | nil)
+
+      def validate_extra: (Array[untyped] wamp_msg, Integer index, Fields fields, String message) -> (String | nil)
+
+      def validate_options: (Array[untyped] wamp_msg, Integer index, Fields fields, String message) -> (String | nil)
+
+      def validate_details: (Array[untyped] wamp_msg, Integer index, Fields fields, String message) -> (String | nil)
+
+      def validate_hello_details: (Array[untyped] wamp_msg, Integer index, Fields fields, String message) -> (String | Array[untyped] | nil)
+
+      def validate_welcome_details: (Array[untyped] wamp_msg, Integer index, Fields fields, String message) -> (String | Array[untyped] | nil)
+
+      def validate_subscription_id: (Array[untyped] wamp_msg, Integer index, Fields fields, String message) -> (String | nil)
+
+      def validate_publication_id: (Array[untyped] wamp_msg, Integer index, Fields fields, String message) -> (String | nil)
+
+      def validate_registration_id: (Array[untyped] wamp_msg, Integer index, Fields fields, String message) -> (String | nil)
+
+      def sanity_check: (Array[untyped] wamp_msg, Integer min_length, Integer max_length, Integer expected_id, String message) -> void
+
+      def self.validate_message: (Array[untyped] wamp_msg, Integer type, ValidationSpec val_spec) -> Fields
+
+    end
+  end
+end

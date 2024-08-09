@@ -1,0 +1,25 @@
+module Wampproto
+  module Message
+    class ValidationSpec
+      @min_length: Integer
+
+      @max_length: Integer
+
+      @message: String
+
+      @spec: Hash[Integer, Method]
+
+      attr_reader min_length: Integer
+
+      attr_reader max_length: Integer
+
+      attr_reader message: String
+
+      attr_reader spec: Hash[Integer, Method]
+
+      def initialize: (Integer min_length, Integer max_length, String message, Hash[Integer, Method] spec) -> void
+
+    end
+  end
+end
+

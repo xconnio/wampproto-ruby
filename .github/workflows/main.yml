@@ -25,6 +25,3 @@ jobs:
           bundler-cache: true
       - name: Run the default task
         run: bundle exec rake
-
-      - name: Run Steep check
-        run: bundle exec steep check

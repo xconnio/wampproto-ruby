@@ -1,0 +1,9 @@
+module Wampproto
+  module Message
+    module Exceptions
+      INVALID_DATA_TYPE_ERROR: String
+      INVALID_RANGE_ERROR: String
+      INVALID_DETAIL_ERROR: String
+    end
+  end
+end

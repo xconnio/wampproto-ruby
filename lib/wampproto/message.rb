@@ -1,5 +1,9 @@
 # frozen_string_literal: true
 
+require_relative "message/exceptions"
+require_relative "message/util"
+require_relative "message/validation_spec"
+
 require_relative "message/base"
 require_relative "message/hello"
 require_relative "message/welcome"
